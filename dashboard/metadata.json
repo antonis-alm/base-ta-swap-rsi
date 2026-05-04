@@ -1,0 +1,5 @@
+{
+    "display_name": "Base TA Swap RSI",
+    "description": "RSI regime-flipper dashboard for Base WETH/USDC Uniswap V3 swaps",
+    "icon": "📈"
+}
