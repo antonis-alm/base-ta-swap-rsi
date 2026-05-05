@@ -196,8 +196,12 @@ class BaseTASwapRSIStrategy(IntentStrategy):
         )
 
     def _pool_is_healthy(self, market: MarketSnapshot) -> bool:
+        pool_reserves_fn = getattr(market, "pool_reserves", None)
+        if not callable(pool_reserves_fn):
+            return True
+
         try:
-            pool = market.pool_reserves(self.pool_address, chain=self.chain)
+            pool = pool_reserves_fn(self.pool_address, chain=self.chain)
         except (PoolReservesUnavailableError, ValueError):
             return False
 
