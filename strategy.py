@@ -228,8 +228,12 @@ class BaseTASwapRSIStrategy(IntentStrategy):
         source_amount: Decimal,
         source_value_usd: Decimal,
     ) -> bool:
+        estimate_slippage_fn = getattr(market, "estimate_slippage", None)
+        if not callable(estimate_slippage_fn):
+            return True
+
         try:
-            estimate = market.estimate_slippage(
+            estimate = estimate_slippage_fn(
                 token_in=source_token,
                 token_out=destination_token,
                 amount=source_amount,
