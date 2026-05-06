@@ -7,13 +7,14 @@ from typing import Any
 from almanak.framework.data.market_snapshot import (
     BalanceUnavailableError,
     GasUnavailableError,
+    MarketSnapshot,
     OHLCVUnavailableError,
     PoolReservesUnavailableError,
     RSIUnavailableError,
     SlippageEstimateUnavailableError,
 )
 from almanak.framework.intents import Intent
-from almanak.framework.strategies import IntentStrategy, MarketSnapshot, almanak_strategy
+from almanak.framework.strategies import IntentStrategy, almanak_strategy
 
 logger = logging.getLogger(__name__)
 
@@ -196,12 +197,8 @@ class BaseTASwapRSIStrategy(IntentStrategy):
         )
 
     def _pool_is_healthy(self, market: MarketSnapshot) -> bool:
-        pool_reserves_fn = getattr(market, "pool_reserves", None)
-        if not callable(pool_reserves_fn):
-            return True
-
         try:
-            pool = pool_reserves_fn(self.pool_address, chain=self.chain)
+            pool = market.pool_reserves(self.pool_address, chain=self.chain)
         except (PoolReservesUnavailableError, ValueError):
             return False
 
@@ -228,12 +225,8 @@ class BaseTASwapRSIStrategy(IntentStrategy):
         source_amount: Decimal,
         source_value_usd: Decimal,
     ) -> bool:
-        estimate_slippage_fn = getattr(market, "estimate_slippage", None)
-        if not callable(estimate_slippage_fn):
-            return True
-
         try:
-            estimate = estimate_slippage_fn(
+            estimate = market.estimate_slippage(
                 token_in=source_token,
                 token_out=destination_token,
                 amount=source_amount,

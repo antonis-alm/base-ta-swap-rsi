@@ -203,40 +203,6 @@ def test_holds_on_pool_fee_mismatch(strategy: BaseTASwapRSIStrategy):
     assert "pool liquidity unavailable" in result.reason
 
 
-def test_swaps_when_pool_reserves_method_unavailable(strategy: BaseTASwapRSIStrategy):
-    strategy._prev_rsi = Decimal("54")
-
-    market = _market(
-        now=datetime(2026, 1, 1, 1, 10, tzinfo=UTC),
-        rsi_value=Decimal("56"),
-        balances=_default_balances(),
-    )
-    market.pool_reserves = None
-
-    result = strategy.decide(market)
-
-    assert result.intent_type.value == "SWAP"
-    assert result.from_token == "USDC"
-    assert result.to_token == "WETH"
-
-
-def test_swaps_when_slippage_estimator_method_unavailable(strategy: BaseTASwapRSIStrategy):
-    strategy._prev_rsi = Decimal("54")
-
-    market = _market(
-        now=datetime(2026, 1, 1, 1, 10, tzinfo=UTC),
-        rsi_value=Decimal("56"),
-        balances=_default_balances(),
-    )
-    market.estimate_slippage = None
-
-    result = strategy.decide(market)
-
-    assert result.intent_type.value == "SWAP"
-    assert result.from_token == "USDC"
-    assert result.to_token == "WETH"
-
-
 def test_holds_when_slippage_too_high(strategy: BaseTASwapRSIStrategy):
     strategy._prev_rsi = Decimal("54")
 
