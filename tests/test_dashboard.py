@@ -4,25 +4,25 @@ from dashboard.ui import _build_dashboard_config, render_custom_dashboard
 
 
 def test_build_dashboard_config_uses_strategy_values():
-    config = _build_dashboard_config({"rsi_period": 21, "rsi_upper_band": 55, "rsi_lower_band": 45})
+    config = _build_dashboard_config({"rsi_period": 21, "rsi_overbought": 68, "rsi_oversold": 32})
 
     assert config.indicator_name == "RSI"
     assert config.indicator_period == 21
-    assert config.upper_threshold == 55
-    assert config.lower_threshold == 45
-
-
-def test_build_dashboard_config_falls_back_to_standard_rsi_keys():
-    config = _build_dashboard_config({"rsi_period": 10, "rsi_overbought": 68, "rsi_oversold": 32})
-
-    assert config.indicator_period == 10
     assert config.upper_threshold == 68
     assert config.lower_threshold == 32
 
 
+def test_build_dashboard_config_falls_back_to_legacy_rsi_keys():
+    config = _build_dashboard_config({"rsi_period": 10, "rsi_upper_band": 55, "rsi_lower_band": 45})
+
+    assert config.indicator_period == 10
+    assert config.upper_threshold == 55
+    assert config.lower_threshold == 45
+
+
 def test_render_custom_dashboard_calls_ta_template():
     with patch("dashboard.ui.render_ta_dashboard") as render_ta_dashboard:
-        strategy_config = {"rsi_period": 14, "rsi_upper_band": 55, "rsi_lower_band": 45}
+        strategy_config = {"rsi_period": 14, "rsi_overbought": 70, "rsi_oversold": 30}
         session_state = {"rsi_value": 51}
 
         render_custom_dashboard(
@@ -38,5 +38,5 @@ def test_render_custom_dashboard_calls_ta_template():
         assert args[1] == strategy_config
         assert args[2] == session_state
         assert args[3].indicator_name == "RSI"
-        assert args[3].upper_threshold == 55
-        assert args[3].lower_threshold == 45
+        assert args[3].upper_threshold == 70
+        assert args[3].lower_threshold == 30

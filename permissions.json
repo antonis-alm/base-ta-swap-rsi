@@ -2,7 +2,7 @@
   {
     "address": "0x2626664c2603336E57B271c5C0b26F421741e481",
     "clearance": 2,
-    "executionOptions": 0,
+    "executionOptions": 1,
     "functions": [
       {
         "selector": "0x04e45aaf",
