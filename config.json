@@ -4,19 +4,19 @@
     "indicator": "rsi",
     "base_token": "WETH",
     "quote_token": "USDC",
-    "trade_size_usd": 1000,
+    "trade_size_usd": 5,
     "rsi_period": 14,
     "rsi_oversold": 30,
     "rsi_overbought": 70,
     "max_slippage_bps": 30,
-    "min_trade_value_usd": "10",
+    "min_trade_value_usd": "5",
     "max_gas_ratio": "0.05",
     "force_action": "",
     "token_funding": [
         {
             "symbol": "USDC",
             "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-            "amount": "50",
+            "amount": "5",
             "amount_type": "usd"
         }
     ],

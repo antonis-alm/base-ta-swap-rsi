@@ -35,14 +35,14 @@ class BaseTASwapRSIStrategy(IntentStrategy):
         self.base_token = str(self.get_config("base_token", "WETH"))
         self.quote_token = str(self.get_config("quote_token", "USDC"))
 
-        self.trade_size_usd = Decimal(str(self.get_config("trade_size_usd", "1000")))
+        self.trade_size_usd = Decimal(str(self.get_config("trade_size_usd", "5")))
         self.max_slippage_bps = int(self.get_config("max_slippage_bps", 30))
 
         self.rsi_period = int(self.get_config("rsi_period", 14))
         self.rsi_oversold = Decimal(str(self.get_config("rsi_oversold", 30)))
         self.rsi_overbought = Decimal(str(self.get_config("rsi_overbought", 70)))
 
-        self.min_trade_value_usd = Decimal(str(self.get_config("min_trade_value_usd", "10")))
+        self.min_trade_value_usd = Decimal(str(self.get_config("min_trade_value_usd", "5")))
         self.max_gas_ratio = Decimal(str(self.get_config("max_gas_ratio", "0.05")))
         self.force_action = str(self.get_config("force_action", "")).strip().lower()
 
