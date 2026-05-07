@@ -2,6 +2,7 @@
     "chain": "base",
     "protocol": "uniswap_v3",
     "indicator": "rsi",
+    "data_granularity": "1m",
     "base_token": "WETH",
     "quote_token": "USDC",
     "trade_size_usd": 5,
